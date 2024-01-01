@@ -1,15 +1,56 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <input type="file" ref="fileInput" @change="handleFileChange" />
+    <button @click="importXml">Import XML</button>
+    <button @click="testLaravel">TestLaravel</button>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+//import {error} from "@babel/eslint-parser/lib/convert";
+//import HelloWorld from './components/HelloWorld.vue'
+
+//import {error} from "@babel/eslint-parser/lib/convert";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    //HelloWorld
+  },
+  data(){
+    return {
+      file: null,
+    }
+  },
+  methods: {
+
+    testLaravel(){
+      axios.get('http://localhost:8000/api/test-connection')
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.error(error)
+          })
+    },
+
+    handleFileChange(event) {
+      this.file = event.target.files[0];
+    },
+
+    importXml() {
+      const formData = new FormData()
+      formData.append('xml_file', this.file)
+
+      axios.post('http://localhost:8000/api/import-xml', formData)
+          .then(response => {
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.error(error)
+          })
+    }
   }
 }
 </script>
