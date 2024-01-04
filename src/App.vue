@@ -3,24 +3,24 @@
     <input type="file" ref="fileInput" @change="handleFileChange" />
     <button @click="importXml">Import XML</button>
     <button @click="testLaravel">TestLaravel</button>
+    <CategoryOffers />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-//import {error} from "@babel/eslint-parser/lib/convert";
-//import HelloWorld from './components/HelloWorld.vue'
+import CategoryOffers from "@/components/CategoryOffers.vue";
 
-//import {error} from "@babel/eslint-parser/lib/convert";
 
 export default {
   name: 'App',
   components: {
-    //HelloWorld
+    CategoryOffers
   },
   data(){
     return {
       file: null,
+      currentComponent: null
     }
   },
   methods: {
@@ -51,6 +51,9 @@ export default {
             console.error(error)
           })
     }
+  },
+  mounted() {
+    this.currentComponent = CategoryOffers
   }
 }
 </script>
